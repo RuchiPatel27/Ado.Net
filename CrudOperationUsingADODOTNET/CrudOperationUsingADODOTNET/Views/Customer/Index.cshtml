@@ -1,0 +1,425 @@
+﻿@model IEnumerable<CrudOperationUsingADODOTNET.Models.Customers>
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.bootstrap.min.css">
+<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/redmond/jquery-ui.css">
+<h1 class="text-center">Customer History</h1>
+<br />
+<br />
+<html>
+<head>
+    <title>Crud Operation using ADO.NET</title>
+    <style>
+        form label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        form div {
+            margin-bottom: 10px;
+        }
+
+        .error {
+            color: red;
+            margin-left: 5px;
+        }
+
+        label.error {
+            display: inline;
+        }
+
+    </style>
+    <body>
+        <table id="tblCustomers" class="table display" cellpadding="0" cellspacing="0" style="width:100%">
+            <thead>
+                <tr>
+                    <th style="width:100px">Customer Id</th>
+                    <th style="width:150px">Name</th>
+                    <th style="width:150px">Country</th>
+                    <th style="width:150px">Class</th>
+                    <th style="width:150px">Date</th>
+                    <th style="width:150px">Country</th>
+                    <th style="width:150px">State</th>
+                    <th style="width:150px">City</th>
+                    <th style="width:150px">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (CrudOperationUsingADODOTNET.Models.Customers customer in Model)
+                {
+                <tr>
+                    <td class="CustomerId">
+                        <span>@customer.CustomerId</span>
+                    </td>
+                    <td class="Name">
+                        <span>@customer.Name</span>
+                        <input type="text" value="@customer.Name" style="display:none" />
+                    </td>
+                    <td class="Country">
+                        <span>@customer.Country</span>
+                        <input type="text" value="@customer.Country" style="display:none" />
+                    </td>
+                    <td class="Class">
+                        <span>@customer.Class</span>
+                        <input type="text" value="@customer.Class" style="display:none" />
+                    </td>
+                    <td class="Date">
+                        <span>@customer.Date.ToString("dd/MM/yyyy")</span>
+                        <input type="text" value="@customer.Date" style="display:none" />
+                    </td>
+                    <td class="CountryId">
+                        <span>@customer.CountryName</span>
+                        <input type="text" value="@customer.CountryName" style="display:none" />
+                    </td>
+                    <td class="StateId">
+                        <span>@customer.StateName</span>
+                        <input type="text" value="@customer.StateName" style="display:none" />
+                    </td>
+                    <td class="CityId">
+                        <span>@customer.CityName</span>
+                        <input type="text" value="@customer.CityName" style="display:none" />
+                    </td>
+                    <td>
+                        <a class="Edit btn btn-success" href="javascript:;">Edit</a>
+                        <a class="Update" href="javascript:;" style="display:none">Update</a>|
+                        <a class="Cancel" href="javascript:;" style="display:none">Cancel</a>
+                        <a class="Delete btn btn-danger" href="javascript:;">Delete</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <br />
+        <h1 class="text-center">Add New Customer</h1>
+        <form id="second_form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <table border="0" cellpadding="0" cellspacing="0" id="tblcust">
+                <tr>
+                    <td style="width: 150px">
+                        Name<br />
+                        <input type="text" id="txtName" class="form-control" name="txtName" style="width:140px" />
+                    </td>
+                    <td style="width: 150px">
+                        Country:<br />
+                        <input type="text" id="txtCountry" class="form-control" name="txtCountry" style="width:140px" />
+                    </td>
+                    <td style="width: 150px">
+                        Class:<br />
+                        <select class="form-control" id="sel1" name="sel1">
+                            <option value="0">----Select Class----</option>
+                            <option value="1">Class1</option>
+                            <option value="2">Class2</option>
+                            <option value="3">Class3</option>
+                            <option value="4">Class4</option>
+                        </select>
+                    </td>
+                    <td style="width: 150px">
+                        Date:<br />
+                        <input id="txtDate" name="date" class="form-control date-picker" style="width:140px" />
+                        <span id="dob-warning-message" class="
+                              error"> </span>
+                    </td>
+                    <td style="width: 150px">
+                        Country Data: <select id="ddlCountries" name="ddlCountries" class="form-control"></select>
+                    </td>
+                    <td style="width: 150px">
+                        State Data: <select id="ddlState" name="ddlState" class="form-control"></select>
+                    </td>
+                    <td style="width: 150px">
+                        City Data: <select id="ddlCities" name="ddlCities" class="form-control"></select>
+                    </td>
+                    <td style="width: 200px">
+                        <br />
+                        <input type="submit" id="btnAdd" class="btn btn-primary" value="Add" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</head>
+</html>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+    $('#tblCustomers').DataTable({
+        "dom": 'Blfrtip',
+    });
+    function AppendRow(row, customerId, name, country) {
+        //Bind CustomerId.
+        $(".CustomerId", row).find("span").html(customerId);
+
+        //Bind Name.
+        $(".Name", row).find("span").html(name);
+        $(".Name", row).find("input").val(name);
+
+        //Bind Country.
+        $(".Country", row).find("span").html(country);
+        $(".Country", row).find("input").val(country);
+
+        row.find(".Edit").show();
+        row.find(".Delete").show();
+
+        $("#tblCustomers").append(row);
+    };
+    $("#txtDate").datepicker({
+        dateFormat: 'dd-mm-yy',
+        changeMonth: true,
+        changeYear: true,
+        onClose: function (selectedDate) {
+            var date_of_birth = selectedDate;
+            if (date_of_birth.length == '') {
+                $('#dob-warning-message').show();
+                $('#dob-warning-message').html("Please Enter Your Date Of Birth !");
+                dob_error = false;
+                return false;
+            }
+            else {
+                $('#dob-warning-message').hide();
+            }
+        }
+    });
+    $(document).ready(function () {
+        $('form[id="second_form"]').validate({
+            rules: {
+                txtName: 'required',
+                txtCountry: 'required',
+                sel1: {
+                    selectcheck: true
+                },
+                txtDate: {
+                    required: true,
+                    date: true
+                },
+                ddlCountries: {
+                    selectcheck: true
+                },
+                ddlState: {
+                    selectcheck: true
+                },
+                ddlCities: {
+                    selectcheck: true
+                }
+            },
+            messages: {
+                txtName: 'please enter your name',
+                txtCountry:'please enter your country'
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+        jQuery.validator.addMethod('selectcheck', function (value) {
+            return (value != '0');
+        }, "please select");
+        jQuery.validator.setDefaults({
+            debug: true,
+            success: "valid"
+        });
+   
+        $.ajax({
+            url: "/Customer/Country/",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                        $('#ddlCountries').append($("<option></option>").val("0").html("Select Country"));
+                        $.each(data, function () {
+                            $('#ddlCountries').append($("<option></option>").val(this.Value).html(this.Text));
+                        });
+            },
+            error: function (r) {
+                alert(r.responseText);
+            },
+            failure: function (r) {
+                alert(r.responseText);
+            }
+        });
+        
+        $("#ddlCountries").on("change", function () {
+            $.ajax({
+                url: "/Customer/State?CountryId=" + $("#ddlCountries").val(),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.Status) {
+                        $('#ddlState').append($("<option></option>").val("0").html("Select State"));
+                        $.each(data.Data, function () {
+                            $('#ddlState').append($("<option></option>").val(this.Value).html(this.Text));
+                        });
+                    }
+                    else {
+                        $('#ddlState').append($("<option></option>").val("0").html("Select State"));
+                    }
+                    
+                },
+                error: function (r) {
+                    alert(r.responseText);
+                },
+                failure: function (r) {
+                    alert(r.responseText);
+                }
+            });
+        });
+        $("#ddlState").on("change", function () {
+            $.ajax({
+                url: "/Customer/City?StateId=" + $("#ddlState").val(),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.Status) {
+                        $('#ddlCities').append($("<option></option>").val("0").html("Select City"));
+                        $.each(data.Data, function () {
+                            $('#ddlCities').append($("<option></option>").val(this.Value).html(this.Text));
+                        });
+                    }
+                    else {
+                        $('#ddlCities').append($("<option></option>").val("0").html("Select City"));
+                    }
+
+                },
+                error: function (r) {
+                    alert(r.responseText);
+                },
+                failure: function (r) {
+                    alert(r.responseText);
+                }
+            });
+        });
+    });
+    $("body").on("click", "#btnAdd", function () {
+        var name = $("#txtName");
+        var country = $("#txtCountry");
+        var Class = $("#sel1");
+        var Date = $("#txtDate");
+        var Data = $("#ddlCountries");
+        var stateData = $("#ddlState");
+        var CityData = $("#ddlCities");
+        $.ajax({
+            type: "POST",
+            url: "/Customer/InsertCustomer",
+            data: '{name: "' + name.val() + '",country: "' + country.val() + '",Class: "' + Class.val() + '",Date:"' + Date.val() + '",CountryId:"' + Data.val() + '",StateId:"' + stateData.val() + '",CityId:"' + CityData.val() + '"}',
+            contentType: "application/json",
+            datatype: "json",
+            success: function (r) {
+                var row = $("#tblCustomer tr:last-child");
+                if ($("#tblCustomer tr:last-child span").eq(0).html() != "&nbsp") {
+                    row = row.clone();
+                }
+                AppendRow(row, r.customerId, r.Name, r.Country, r.CountryId,r.StateId,r.CityId);
+                name.val("");
+                country.val("");
+                Data.val("");
+                stateData.val("");
+                CityData.val("");
+            }
+        });
+    });
+    $("body").on("click", "#tblCustomers .Update", function () {
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0)
+            {
+                var span = $(this).find("span");
+                var input = $(this).find("input");
+                span.html(input.val());
+                span.show();
+                input.hide();
+            }
+            
+        });
+        row.find(".Edit").show();
+        row.find(".Delete").show();
+        row.find(".Cancel").hide();
+        $(this).hide();
+        var customer = {};
+        var customerId = row.find(".CustomerId").find("span").html();
+        var name = row.find(".Name").find("span").html();
+        var country = row.find(".Country").find("span").html();
+        var classes = row.find(".Class").find("span").html();
+        var date = row.find(".Date").find("span").html();
+        var CountryId = row.find(".CountryId").find("span").html();
+        var stateId = row.find(".StateId").find("span").html();
+        var CityId = row.find(".CityId").find("span").html();
+        $.ajax({
+            type: "POST",
+            url: "/Customer/UpdateCustomer?CustomerId=" + customerId + "&Name=" + name + "&Country=" + country + "&Class=" + classes + "&Date=" + date + "&CountryId=" + CountryId + "&StateId=" + stateId + "&CityId=" + CityId,
+            contentType: "application / json",
+            dataType: "json",
+            success: function (response) {
+                alert("Record Update");
+                if ($("#tblCustomers tr").length > 2) {
+
+                } else {
+                    row.find(".Edit").hide();
+                    row.find(".Delete").hide();
+                    row.find("span").html('&nbsp;');
+                }
+            }
+        });
+    });
+    //Edit event handler.
+    $("body").on("click", "#tblCustomers .Edit", function () {
+        
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                $(this).find("input").show();
+                $(this).find("span").hide();
+            }
+        });
+        row.find(".Update").show();
+        row.find(".Cancel").show();
+        row.find(".Delete").hide();
+        $(this).hide();
+    });
+    //Cancel event handler.
+    $("body").on("click", "#tblCustomers .Cancel", function () {
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                var span = $(this).find("span");
+                var input = $(this).find("input");
+                input.val(span.html());
+                span.show();
+                input.hide();
+            }
+        });
+        row.find(".Edit").show();
+        row.find(".Delete").show();
+        row.find(".Update").hide();
+        $(this).hide();
+    });
+    //Delete event handler.
+    $("body").on("click", "#tblCustomers .Delete", function () {
+        if (confirm("Do you want to delete this row?")) {
+            var row = $(this).closest("tr");
+            var CustomerId = row.find("span").html();
+            $.ajax({
+                type: "POST",
+                url: "/Customer/DeleteCustomer?CustomerId=" + CustomerId,
+                data: '{CustomerId: ' + CustomerId + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if ($("#tblCustomers tr").length > 2) {
+                        row.remove();
+                    } else {
+                        row.find(".Edit").hide();
+                        row.find(".Delete").hide();
+                        row.find("span").html('&nbsp;');
+                    }
+                }
+            });
+        }
+    });
+</script>
